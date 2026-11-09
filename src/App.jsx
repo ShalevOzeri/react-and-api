@@ -28,7 +28,13 @@ function App() {
 
     fetch('https://api.tvmaze.com/shows')
 
-      .then((response) => response.json())
+      .then((response) => {
+
+        if (response.ok) {
+          return response.json()
+        }
+        throw new Error('Failed to fetch shows')
+      })
 
       .then((data) => {
         setShows(data)
