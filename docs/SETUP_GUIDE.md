@@ -258,6 +258,38 @@ To stop a server, focus its terminal and press:
 Ctrl + C
 ```
 
+## 11. Connect the project to GitHub
+
+Run these commands from the project folder:
+
+```powershell
+git init -b main
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git add .
+git commit -m "Initial React project"
+git push -u origin main
+```
+
+Replace the repository URL with your own GitHub repository URL.
+
+For later changes:
+
+```powershell
+git status
+git add .
+git commit -m "Describe the change"
+git push
+```
+
+The `.gitignore` file should exclude generated folders such as:
+
+```text
+node_modules
+dist
+```
+
+Do not commit passwords, API keys, or other secrets.
+
 ## Complete setup sequence
 
 For a new project, the complete sequence is:

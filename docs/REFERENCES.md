@@ -336,6 +336,142 @@ const comedyShows = shows.filter((show) =>
 
 נשתמש בו בהמשך לחיפוש ולסינון בצד הלקוח.
 
+## חיפוש וסינון משולבים
+
+שומרים את טקסט החיפוש ואת הז׳אנר שנבחר ב־`App`, משום שזהו הרכיב שמחזיק
+את רשימת הסדרות.
+
+```jsx
+const [searchTerm, setSearchTerm] = useState('')
+const [selectedGenre, setSelectedGenre] = useState('')
+
+const filteredShows = shows.filter((show) => {
+  const matchesSearchTerm = show.name
+    .toLowerCase()
+    .includes(searchTerm.toLowerCase())
+
+  const matchesGenre =
+    selectedGenre === '' || show.genres.includes(selectedGenre)
+
+  return matchesSearchTerm && matchesGenre
+})
+```
+
+`SearchBar` ו־`FilterBar` מקבלים ערכים ופונקציות דרך `props`. הם אחראים על
+הקלט בלבד, ואילו `App` אחראי על הלוגיקה ועל הרשימה המסוננת.
+
+## `Header` ורכיבים סמנטיים
+
+```jsx
+function Header({ title }) {
+  return (
+    <header>
+      <h1>{title}</h1>
+    </header>
+  )
+}
+```
+
+רכיב נפרד מאפשר ל־`App` להתמקד בהרכבת הדף ובניהול הנתונים.
+
+## `select` וסינון לפי ז׳אנר
+
+```jsx
+function FilterBar({ genres, value, onChange }) {
+  return (
+    <select value={value} onChange={onChange}>
+      <option value="">All genres</option>
+      {genres.map((genre) => (
+        <option key={genre} value={genre}>
+          {genre}
+        </option>
+      ))}
+    </select>
+  )
+}
+```
+
+## `CSS Grid`
+
+קישור לתיעוד:
+
+[CSS Grid Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout)
+
+`Grid` מתאים להצגת כרטיסים בשורות ובעמודות.
+
+```css
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+```
+
+## `Flexbox`
+
+קישור לתיעוד:
+
+[CSS Flexible Box Layout](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout)
+
+`Flexbox` מתאים לסידור סרגל החיפוש והסינון.
+
+```css
+.toolbar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+```
+
+## `ternary operator`
+
+קישור לתיעוד:
+
+[Conditional operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator)
+
+משמש להצגת רכיב אחד כאשר תנאי נכון ורכיב אחר כאשר הוא שגוי.
+
+```jsx
+{filteredShows.length === 0 ? (
+  <p>No shows found</p>
+) : (
+  <MovieGrid movies={filteredShows} />
+)}
+```
+
+## `dangerouslySetInnerHTML`
+
+קישור לתיעוד:
+
+[dangerouslySetInnerHTML](https://react.dev/reference/react-dom/components/common#dangerously-setting-the-inner-html)
+
+`TVMaze` מחזיר את התקציר עם תגיות `HTML`. המאפיין מאפשר ל־React להציג את
+התגיות כ־HTML במקום כטקסט רגיל.
+
+```jsx
+<div dangerouslySetInnerHTML={{ __html: movie.summary }} />
+```
+
+יש להשתמש בכך רק כאשר מקור התוכן אמין או לאחר ניקוי התוכן.
+
+## Git ו־GitHub
+
+הפרויקט מחובר למאגר:
+
+```text
+https://github.com/ShalevOzeri/react-and-api
+```
+
+פקודות בסיסיות:
+
+```powershell
+git status
+git add .
+git commit -m "Describe the change"
+git push
+```
+
 ## בדיקת הצלחה בסיסית
 
 לאחר שמירת הקבצים:
@@ -355,10 +491,12 @@ npm run dev
 
 ## סדר הלימוד שלנו
 
-1. הצגת נתונים מ־TVMaze.
-2. הוספת תמונה ודירוג לכרטיס.
-3. מצב טעינה.
-4. מצב שגיאה.
-5. חיפוש טקסטואלי.
-6. סינון לפי ז׳אנר.
-7. עיצוב עם Grid ו־Flexbox.
+1. הצגת נתונים מ־TVMaze — הושלם.
+2. הוספת תמונה, דירוג ותקציר לכרטיס — הושלם.
+3. מצב טעינה ומצב שגיאה — הושלם.
+4. חיפוש טקסטואלי — הושלם.
+5. סינון לפי ז׳אנר — הושלם.
+6. `Header`, `CSS Grid` ו־`Flexbox` — הושלם חלקית.
+7. התאמה למסכים קטנים.
+8. ניקוי קוד וסבב בדיקות.
+9. סימולציית מבחן מלאה.
