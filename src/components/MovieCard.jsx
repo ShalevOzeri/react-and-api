@@ -1,7 +1,7 @@
 function MovieCard({ movie }) {
   return (
     <article className="movie-card">
-      <h2>{movie.name}</h2>
+      <h2 className="movie-name">{movie.name}</h2>
       <p>{movie.premiered}</p>
       <p>{movie.genres?.join(', ') || 'No genres available'}</p>
       <p>Rating: {movie.rating?.average || 'No rating available'}</p>

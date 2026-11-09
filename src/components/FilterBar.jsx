@@ -1,6 +1,7 @@
 function FilterBar({ genres, value, onChange }) {
     return (
         <select
+            className="genre-select"
             value={value}
             onChange={onChange}
         >

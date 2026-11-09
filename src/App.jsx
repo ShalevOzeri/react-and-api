@@ -51,7 +51,7 @@ function App() {
 
   return (
 
-    <div>
+    <div className="app">
       <Header title="TV shows" />
       <div className="toolbar">
         <SearchBar
