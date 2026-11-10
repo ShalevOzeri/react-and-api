@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar'
 import FilterBar from './components/FilterBar'
 import Header from './components/Header'
 import { useState, useEffect } from 'react'
+import MovieExtendedDetails from './components/MovieExtendedDetails'
 
 
 function normalizeMovie(item) {
@@ -48,6 +49,7 @@ function App() {
   const [movies, setMovies] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [selectedMovie, setSelectedMovie] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedGenre, setSelectedGenre] = useState('')
   const [selectedYear, setSelectedYear] = useState('')
@@ -112,37 +114,54 @@ function App() {
 
     <div className="app">
       <Header title="Movies" />
-      <div className="toolbar">
-        <SearchBar
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
 
-        <FilterBar
-          genres={genres}
-          years={years}
-          ratingOptions={ratingOptions}
-          genreValue={selectedGenre}
-          onGenreChange={(e) => setSelectedGenre(e.target.value)}
-          yearValue={selectedYear}
-          onYearChange={(e) => setSelectedYear(e.target.value)}
-          ratingValue={minimumRating}
-          onRatingChange={(e) => setMinimumRating(e.target.value)}
-        />
-      </div>
+      {!selectedMovie && (
+        <div className="toolbar">
+          <SearchBar
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
-
-
-
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
-      {!loading && !error && (
-        filteredMovies.length === 0 ? (
-          <p>No movies found</p>
-        ) : (
-          <MovieGrid movies={filteredMovies} />
-        )
+          <FilterBar
+            genres={genres}
+            years={years}
+            ratingOptions={ratingOptions}
+            genreValue={selectedGenre}
+            onGenreChange={(e) => setSelectedGenre(e.target.value)}
+            yearValue={selectedYear}
+            onYearChange={(e) => setSelectedYear(e.target.value)}
+            ratingValue={minimumRating}
+            onRatingChange={(e) => setMinimumRating(e.target.value)}
+          />
+        </div>
       )}
+
+
+
+      {selectedMovie ? (
+        <MovieExtendedDetails
+          movie={selectedMovie}
+          onBack={() => setSelectedMovie(null)}
+        />
+      ) : (
+        <>
+          {loading && <p>Loading...</p>}
+          {error && <p>Error: {error.message}</p>}
+          {!loading && !error && (
+            filteredMovies.length === 0 ? (
+              <p>No movies found</p>
+            ) : (
+              <MovieGrid
+                movies={filteredMovies}
+                onMovieClick={setSelectedMovie}
+              />
+            )
+          )}
+        </>
+      )}
+
+
+
 
     </div>
   )
