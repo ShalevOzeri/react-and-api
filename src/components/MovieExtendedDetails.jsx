@@ -9,6 +9,7 @@ function MovieExtendedDetails({ movie, onBack }) {
             <p>{movie.premiered?.slice(0, 4)}</p>
             <p>{movie.genres?.join(', ') || 'No genres available'}</p>
             <p>Rating: {movie.rating?.average ?? 'No rating available'}</p>
+            <p>{movie.network}</p>
             {movie.image?.medium ? (
                 <img src={movie.image.medium} alt={movie.name} />
             ) : (

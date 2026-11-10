@@ -14,6 +14,9 @@ function MovieCard({ movie, onClick }) {
       <div className="movie-filtered-details">
         <p>{movie.premiered?.slice(0, 4) || 'No year available'}</p>
         <p>{movie.genres?.join(', ') || 'No genres available'}</p>
+        <p>{movie.network}</p>
+        
+
       </div>
     </article>
   )

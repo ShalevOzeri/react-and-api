@@ -28,7 +28,7 @@ function normalizeMovie(item) {
         : [],
 
     premiered: item.premiered || '',
-
+    network: item.network?.name || 'Unknown network',
     rating: {
       average: Number.isFinite(ratingValue)
         ? ratingValue
