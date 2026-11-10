@@ -7,39 +7,53 @@ import { useState, useEffect } from 'react'
 import MovieExtendedDetails from './components/MovieExtendedDetails'
 
 
+function normalizeField(item, path, type) {
+  const value = path.split('.').reduce((currentValue, key) => (
+    currentValue?.[key]
+  ), item)
+
+  if (value === null || value === undefined) {
+    return type === 'array' ? [] : type === 'number' ? null : ''
+  }
+
+  if (type === 'string') {
+    return String(value)
+  }
+
+  if (type === 'number') {
+    const numberValue = Number(value)
+
+    return Number.isFinite(numberValue) ? numberValue : null
+  }
+
+  if (type === 'array') {
+    return Array.isArray(value) ? value : [value]
+  }
+
+  return value
+}
+
 function normalizeMovie(item) {
-  const rawRating = typeof item.rating === 'object'
-    ? item.rating?.average
-    : item.rating
-
-  const ratingValue = Number(rawRating)
-
   return {
-    id: item.id,
+    id: normalizeField(item, 'id', 'number'),
 
-    name: Array.isArray(item.name) ?
-      item.name.join(', ')
-      : String(item.name || ''),
+    name: normalizeField(item, 'name', 'string'),
 
-    genres: Array.isArray(item.genres) ?
-      item.genres
-      : typeof item.genres === 'string' ?
-        [item.genres]
-        : [],
+    genres: normalizeField(item, 'genres', 'array'),
 
-    premiered: item.premiered || '',
-    network: item.network?.name || 'Unknown network',
+    premiered: normalizeField(item, 'premiered', 'string'),
+
+    network: normalizeField(item, 'network.name', 'string') || 'Unknown network',
+
     rating: {
-      average: Number.isFinite(ratingValue)
-        ? ratingValue
-        : null
+      average: normalizeField(item, 'rating.average', 'number')
     },
 
     image: {
-      medium: item.image?.medium || ''
+      medium: normalizeField(item, 'image.medium', 'string')
     },
 
-    summary: item.summary || ''
+    summary: normalizeField(item, 'summary', 'string')
   }
 }
 
@@ -98,7 +112,7 @@ function App() {
           throw new Error('Invalid movies response')
         }
 
-        setMovies(data.map(normalizeMovie))
+        setMovies(data.map(normalizeMovie)) 
         setLoading(false)
       })
 
