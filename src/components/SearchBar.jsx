@@ -5,7 +5,7 @@ function SearchBar({ value, onChange }) {
             type="text"
             value={value}
             onChange={onChange}
-            placeholder="Search shows..."
+            placeholder="Search movies..."
         />
     )
 }

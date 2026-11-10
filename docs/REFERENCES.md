@@ -298,6 +298,56 @@ Drama, Comedy
 <p>{movie.genres.join(', ')}</p>
 ```
 
+## נרמול נתונים מ־API
+
+לכל API יכול להיות מבנה שדות שונה. כדי שהרכיבים שלנו לא יהיו תלויים
+במבנה של שרת מסוים, משתמשים בפונקציית נרמול.
+
+הפונקציה מקבלת פריט במבנה של ה־API ומחזירה מבנה פנימי קבוע:
+
+```jsx
+function normalizeMovie(item) {
+  return {
+    id: item.id,
+    name: item.name,
+    genres: item.genres || [],
+    premiered: item.premiered || '',
+    rating: {
+      average: item.rating?.average ?? null
+    },
+    image: {
+      medium: item.image?.medium || ''
+    },
+    summary: item.summary || ''
+  }
+}
+```
+
+את הנרמול מפעילים מיד לאחר קבלת הנתונים:
+
+```jsx
+.then((data) => {
+  if (!Array.isArray(data)) {
+    throw new Error('Invalid movies response')
+  }
+
+  setMovies(data.map(normalizeMovie))
+})
+```
+
+כאשר עוברים ל־API אחר, משנים את מיפוי השדות בתוך `normalizeMovie`
+ואת מיקום המערך בתשובה, אם נדרש. לדוגמה, אם הרשימה נמצאת בתוך
+`data.results`, משתמשים ב־`data.results.map(normalizeMovie)`.
+
+הרכיבים ממשיכים לקבל תמיד את אותו מבנה פנימי:
+
+```text
+id, name, genres, premiered, rating.average, image.medium, summary
+```
+
+כך `MovieCard`, `MovieGrid` והסינון אינם צריכים להכיר את שמות השדות
+המקוריים של כל API.
+
 ## `optional chaining`
 
 קישור לתיעוד:

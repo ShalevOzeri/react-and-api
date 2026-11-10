@@ -4,7 +4,7 @@ function MovieCard({ movie }) {
       <h2 className="movie-name">{movie.name}</h2>
       <p>{movie.premiered}</p>
       <p>{movie.genres?.join(', ') || 'No genres available'}</p>
-      <p>Rating: {movie.rating?.average || 'No rating available'}</p>
+      <p>Rating: {movie.rating?.average ?? 'No rating available'}</p>
       {movie.image?.medium ? (
         <img src={movie.image.medium} alt={movie.name} />
       ) : (
