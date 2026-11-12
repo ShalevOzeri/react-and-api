@@ -123,6 +123,7 @@
   color: #aaaaaa;
 }
 
+
 .search-input:focus,
 .genre-select:focus,
 .year-select:focus,
@@ -150,4 +151,43 @@
 
 .back-button:hover {
   background: #b82b38;
+}
+
+
+
+
+.genre-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.genre-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  color: #aaaaaa;
+  background: #1f1f1f;
+  border: 1px solid #444444;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.genre-options label:hover {
+  color: #ffffff;
+  border-color: #da3543;
+}
+
+.genre-options input {
+  margin: 0;
+  accent-color: #da3543;
+  cursor: pointer;
+}
+
+.genre-options label:has(input:checked) {
+  color: #ffffff;
+  background: #da3543;
+  border-color: #da3543;
 }

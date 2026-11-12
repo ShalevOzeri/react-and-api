@@ -1,19 +1,31 @@
 function FilterBar({ genres, years, ratingOptions, genreValue, onGenreChange, yearValue, onYearChange, ratingValue, onRatingChange }) {
     return (
         <>
-            <select
-                className="genre-select"
-                value={genreValue}
-                onChange={onGenreChange}
-            >
-                <option value="">All genres</option>
+            <div className="genre-options">
+                <label>
+                    <input
+                        type="radio"
+                        name="genre"
+                        value=""
+                        checked={genreValue === ''}
+                        onChange={onGenreChange}
+                    />
+                    All genres
+                </label>
 
                 {genres.map((genre) => (
-                    <option key={genre} value={genre}>
+                    <label key={genre}>
+                        <input
+                            type="radio"
+                            name="genre"
+                            value={genre}
+                            checked={genreValue === genre}
+                            onChange={onGenreChange}
+                        />
                         {genre}
-                    </option>
+                    </label>
                 ))}
-            </select>
+            </div>
 
             <select
                 className="year-select"
